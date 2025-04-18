@@ -1,0 +1,26 @@
+---
+title: "Advanced MDX Techniques"
+date: "2023-06-05"
+tags: ["MDX", "Advanced", "Components"]
+excerpt: "Take your MDX skills to the next level with custom components and dynamic content."
+coverImage: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+---
+
+# Advanced MDX Techniques
+
+MDX combines the simplicity of Markdown with the power of JSX, allowing you to embed React components directly in your content. In this article, we'll explore advanced MDX techniques to take your content to the next level.
+
+## Custom Components in MDX
+
+One of the most powerful features of MDX is the ability to use custom React components in your markdown:
+
+```jsx
+import { Alert } from '../components/Alert'
+
+# Using Custom Components
+
+<Alert type="info">
+  This is an informational alert using a custom component!
+</Alert>
+
+You can continue writing markdown as usual...

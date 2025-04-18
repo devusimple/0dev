@@ -1,0 +1,61 @@
+---
+title: "Creating Dynamic Routes in Next.js"
+date: "2023-06-10"
+tags: ["Next.js", "Routing", "Web Development"]
+excerpt: "Explore how to implement dynamic routing in Next.js for your blog posts and category pages."
+coverImage: "https://images.unsplash.com/photo-1546900703-cf06143d1239?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+---
+
+# Creating Dynamic Routes in Next.js
+
+Dynamic routing is a powerful feature in Next.js that allows you to create pages with paths that depend on external data. This is perfect for blogs, e-commerce sites, and any application where URLs need to be generated dynamically.
+
+## Understanding Dynamic Routes
+
+In Next.js, you can create dynamic routes by adding square brackets to a page filename. For example, `pages/posts/[slug].js` will match `/posts/hello-world`, `/posts/learn-nextjs`, etc.
+
+## Setting Up Dynamic Routes for Blog Posts
+
+Let's create a dynamic route for our blog posts:
+
+```jsx
+// pages/posts/[slug].js
+import { useRouter } from 'next/router'
+import { getAllPostSlugs, getPostBySlug } from '../../lib/posts'
+
+export default function Post({ post }) {
+  const router = useRouter()
+  
+  // If the page is still being generated, show a loading state
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+    </article>
+  )
+}
+
+export async function getStaticPaths() {
+  const slugs = getAllPostSlugs()
+  
+  return {
+    paths: slugs.map((slug) => ({
+      params: { slug },
+    })),
+    fallback: false,
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const post = getPostBySlug(params.slug)
+  
+  return {
+    props: {
+      post,
+    },
+  }
+}
